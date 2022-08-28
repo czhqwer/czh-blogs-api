@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.czh.mapper.TSetArtitleSortMapper" >
+  <resultMap id="BaseResultMap" type="cn.czh.domain.TSetArtitleSort" >
+    <id column="article_id" property="articleId" jdbcType="BIGINT" />
+    <id column="sort_id" property="sortId" jdbcType="BIGINT" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="map" >
+    delete from t_set_artitle_sort
+    where article_id = #{articleId,jdbcType=BIGINT}
+      and sort_id = #{sortId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.czh.domain.TSetArtitleSort" >
+    insert into t_set_artitle_sort (article_id, sort_id)
+    values (#{articleId,jdbcType=BIGINT}, #{sortId,jdbcType=BIGINT})
+  </insert>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select article_id, sort_id
+    from t_set_artitle_sort
+  </select>
+</mapper>

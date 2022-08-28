@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.czh.mapper.TLabelsMapper" >
+  <resultMap id="BaseResultMap" type="cn.czh.domain.TLabels" >
+    <id column="label_id" property="labelId" jdbcType="BIGINT" />
+    <result column="label_name" property="labelName" jdbcType="VARCHAR" />
+    <result column="label_alias" property="labelAlias" jdbcType="VARCHAR" />
+    <result column="label_description" property="labelDescription" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_labels
+    where label_id = #{labelId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.czh.domain.TLabels" >
+    insert into t_labels (label_id, label_name, label_alias, 
+      label_description)
+    values (#{labelId,jdbcType=BIGINT}, #{labelName,jdbcType=VARCHAR}, #{labelAlias,jdbcType=VARCHAR}, 
+      #{labelDescription,jdbcType=LONGVARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.czh.domain.TLabels" >
+    update t_labels
+    set label_name = #{labelName,jdbcType=VARCHAR},
+      label_alias = #{labelAlias,jdbcType=VARCHAR},
+      label_description = #{labelDescription,jdbcType=LONGVARCHAR}
+    where label_id = #{labelId,jdbcType=BIGINT}
+  </update>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select label_id, label_name, label_alias, label_description
+    from t_labels
+  </select>
+    <select id="selectLableListByArticleId" resultType="cn.czh.domain.TLabels">
+      SELECT
+        l.label_name,
+        l.label_alias
+      FROM
+        t_articles a
+          LEFT JOIN t_set_artitle_label sal ON sal.article_id = a.article_id
+          LEFT JOIN t_labels l ON l.label_id = sal.label_id
+      where a.article_id = #{articleId}
+
+    </select>
+</mapper>

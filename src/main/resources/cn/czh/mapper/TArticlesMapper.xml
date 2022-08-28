@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.czh.mapper.TArticlesMapper">
+    <resultMap id="BaseResultMap" type="cn.czh.domain.TArticles">
+        <id column="article_id" property="articleId" jdbcType="BIGINT"/>
+        <result column="user_id" property="userId" jdbcType="BIGINT"/>
+        <result column="article_views" property="articleViews" jdbcType="BIGINT"/>
+        <result column="article_comment_count" property="articleCommentCount" jdbcType="BIGINT"/>
+        <result column="article_date" property="articleDate" jdbcType="TIMESTAMP"/>
+        <result column="article_like_count" property="articleLikeCount" jdbcType="BIGINT"/>
+        <result column="article_title" property="articleTitle" jdbcType="LONGVARCHAR"/>
+        <result column="article_content" property="articleContent" jdbcType="LONGVARCHAR"/>
+    </resultMap>
+    <resultMap id="ArticleVotMap" type="cn.czh.vo.ArticleVo">
+        <id column="article_id" property="articleId" jdbcType="BIGINT"/>
+        <result column="user_id" property="userId" jdbcType="BIGINT"/>
+        <result column="article_views" property="articleViews" jdbcType="BIGINT"/>
+        <result column="article_comment_count" property="articleCommentCount" jdbcType="BIGINT"/>
+        <result column="article_date" property="articleDate" jdbcType="TIMESTAMP"/>
+        <result column="article_like_count" property="articleLikeCount" jdbcType="BIGINT"/>
+        <result column="article_title" property="articleTitle" jdbcType="LONGVARCHAR"/>
+        <result column="article_content" property="articleContent" jdbcType="LONGVARCHAR"/>
+        <result column="article_image" property="articleImage" jdbcType="VARCHAR"/>
+        <result column="article_description" property="articleDescription" jdbcType="VARCHAR"/>
+        <result column="user_nickname" property="userNickname" jdbcType="VARCHAR"/>
+        <result column="user_profile_photo" property="userProfilePhoto" jdbcType="VARCHAR"/>
+        <result column="sort_name" property="sortName" jdbcType="VARCHAR"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from t_articles
+        where article_id = #{articleId,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="cn.czh.domain.TArticles">
+        insert into t_articles (article_id, user_id, article_views,
+                                article_comment_count, article_date, article_like_count,
+                                article_title, article_content)
+        values (#{articleId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{articleViews,jdbcType=BIGINT},
+                #{articleCommentCount,jdbcType=BIGINT}, #{articleDate,jdbcType=TIMESTAMP},
+                #{articleLikeCount,jdbcType=BIGINT},
+                #{articleTitle,jdbcType=LONGVARCHAR}, #{articleContent,jdbcType=LONGVARCHAR})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="cn.czh.domain.TArticles">
+        update t_articles
+        set user_id               = #{userId,jdbcType=BIGINT},
+            article_views         = #{articleViews,jdbcType=BIGINT},
+            article_comment_count = #{articleCommentCount,jdbcType=BIGINT},
+            article_date          = #{articleDate,jdbcType=TIMESTAMP},
+            article_like_count    = #{articleLikeCount,jdbcType=BIGINT},
+            article_title         = #{articleTitle,jdbcType=LONGVARCHAR},
+            article_content       = #{articleContent,jdbcType=LONGVARCHAR}
+        where article_id = #{articleId,jdbcType=BIGINT}
+    </update>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select article_id,
+               user_id,
+               article_views,
+               article_comment_count,
+               article_date,
+               article_like_count,
+               article_title,
+               article_content
+        from t_articles
+    </select>
+    <select id="findAllArticleVoBySortId" resultMap="ArticleVotMap">
+        SELECT a.article_id,
+               a.user_id,
+               a.article_views,
+               a.article_comment_count,
+               a.article_date,
+               a.article_like_count,
+               a.article_title,
+               a.article_description,
+               a.article_image,
+               u.user_nickname,
+               u.user_profile_photo,
+               s.sort_name
+        FROM t_articles a
+                 LEFT JOIN t_users u ON a.user_id = u.user_id
+                 LEFT JOIN t_set_artitle_sort sas ON a.article_id = sas.article_id
+                 LEFT JOIN t_sorts s ON sas.sort_id = s.sort_id
+        <where>
+            <if test="sortId != null and sortId !=''">
+                s.sort_id = #{sortId}
+            </if>
+        </where>
+    </select>
+</mapper>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.czh.mapper.TSetArtitleLabelMapper" >
+  <resultMap id="BaseResultMap" type="cn.czh.domain.TSetArtitleLabel" >
+    <id column="article_id" property="articleId" jdbcType="BIGINT" />
+    <result column="label_id" property="labelId" jdbcType="BIGINT" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_set_artitle_label
+    where article_id = #{articleId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.czh.domain.TSetArtitleLabel" >
+    insert into t_set_artitle_label (article_id, label_id)
+    values (#{articleId,jdbcType=BIGINT}, #{labelId,jdbcType=BIGINT})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.czh.domain.TSetArtitleLabel" >
+    update t_set_artitle_label
+    set label_id = #{labelId,jdbcType=BIGINT}
+    where article_id = #{articleId,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select article_id, label_id
+    from t_set_artitle_label
+    where article_id = #{articleId,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select article_id, label_id
+    from t_set_artitle_label
+  </select>
+</mapper>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.czh.mapper.TSortsMapper" >
+  <resultMap id="BaseResultMap" type="cn.czh.domain.TSorts" >
+    <id column="sort_id" property="sortId" jdbcType="BIGINT" />
+    <result column="sort_name" property="sortName" jdbcType="VARCHAR" />
+    <result column="sort_alias" property="sortAlias" jdbcType="VARCHAR" />
+    <result column="parent_sort_id" property="parentSortId" jdbcType="BIGINT" />
+    <result column="sort_description" property="sortDescription" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_sorts
+    where sort_id = #{sortId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.czh.domain.TSorts" >
+    insert into t_sorts (sort_id, sort_name, sort_alias, 
+      parent_sort_id, sort_description)
+    values (#{sortId,jdbcType=BIGINT}, #{sortName,jdbcType=VARCHAR}, #{sortAlias,jdbcType=VARCHAR}, 
+      #{parentSortId,jdbcType=BIGINT}, #{sortDescription,jdbcType=LONGVARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.czh.domain.TSorts" >
+    update t_sorts
+    set sort_name = #{sortName,jdbcType=VARCHAR},
+      sort_alias = #{sortAlias,jdbcType=VARCHAR},
+      parent_sort_id = #{parentSortId,jdbcType=BIGINT},
+      sort_description = #{sortDescription,jdbcType=LONGVARCHAR}
+    where sort_id = #{sortId,jdbcType=BIGINT}
+  </update>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select sort_id, sort_name, sort_alias, parent_sort_id, sort_description
+    from t_sorts
+  </select>
+  <select id="findSonById" resultType="cn.czh.domain.TSorts">
+    select sort_id, sort_name, sort_alias, parent_sort_id, sort_description
+    from t_sorts
+    where parent_sort_id = #{sortId}
+  </select>
+  <select id="findParentIdNoNull" resultType="cn.czh.domain.TSorts">
+    select sort_id, sort_name, sort_alias, parent_sort_id, sort_description
+from t_sorts where parent_sort_id is null
+  </select>
+</mapper>

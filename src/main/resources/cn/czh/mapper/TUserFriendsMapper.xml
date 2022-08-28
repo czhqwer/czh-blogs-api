@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.czh.mapper.TUserFriendsMapper" >
+  <resultMap id="BaseResultMap" type="cn.czh.domain.TUserFriends" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="user_friends_id" property="userFriendsId" jdbcType="BIGINT" />
+    <result column="user_note" property="userNote" jdbcType="VARCHAR" />
+    <result column="user_status" property="userStatus" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_user_friends
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.czh.domain.TUserFriends" useGeneratedKeys="true" keyProperty="id" >
+    insert into t_user_friends (user_id, user_friends_id, user_note, 
+      user_status)
+    values (#{userId,jdbcType=BIGINT}, #{userFriendsId,jdbcType=BIGINT}, #{userNote,jdbcType=VARCHAR}, 
+      #{userStatus,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.czh.domain.TUserFriends" >
+    update t_user_friends
+    set user_id = #{userId,jdbcType=BIGINT},
+      user_friends_id = #{userFriendsId,jdbcType=BIGINT},
+      user_note = #{userNote,jdbcType=VARCHAR},
+      user_status = #{userStatus,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select id, user_id, user_friends_id, user_note, user_status
+    from t_user_friends
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, user_id, user_friends_id, user_note, user_status
+    from t_user_friends
+  </select>
+</mapper>
