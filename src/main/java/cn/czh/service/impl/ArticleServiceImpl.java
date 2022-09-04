@@ -10,9 +10,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
@@ -29,7 +27,6 @@ public class ArticleServiceImpl implements ArticleService {
         PageHelper.startPage(query.getCurrentPage(), query.getPageSize());
         List<ArticleVo> articleVos = articlesMapper.findAllArticleVoBySortId(query.getSortId());
         articleVos.stream().forEach(n -> n.setLabels(labelsMapper.selectLableListByArticleId(n.getArticleId())));
-        PageInfo<ArticleVo> pageInfo = new PageInfo<>(articleVos);
-        return pageInfo;
+        return new PageInfo<>(articleVos);
     }
 }
