@@ -1,6 +1,5 @@
 # czh-blogs-api
 czh-blogs-api
-<<<<<<< HEAD
 
 + Java
 + Spring
@@ -9,12 +8,12 @@ czh-blogs-api
 + MyBatis-Plus
 
 ---
-Window搭环境
+## Window搭环境
 
 + 略
 
 ---
-Ubuntu搭环境
+## Ubuntu搭环境
 ### JDK8安装
 
 + 更新软件包列表：
